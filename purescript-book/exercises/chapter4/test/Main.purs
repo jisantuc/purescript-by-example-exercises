@@ -1,12 +1,10 @@
 module Test.Main where
 
-import Prelude
-import Test.Examples
-import Test.MySolutions
+import Prelude (Unit, discard, negate, ($), (<$>), (==))
+import Test.Examples (allFiles, allFiles', fact, factTailRec, factors, factorsV2, factorsV3, fib, length, lengthTailRec)
+import Test.MySolutions (countEven, isEven, isPrime, keepNonNegative, keepNonNegativeRewrite, squared, (<$?>), triples, factorize)
 import Data.Array (sort)
-import Data.Maybe (Maybe(..))
 import Data.Path (filename, root)
-import Data.Tuple (fst)
 import Effect (Effect)
 import Test.Unit (TestSuite, suite, test)
 import Test.Unit.Assert (assert, assertFalse)
@@ -17,7 +15,6 @@ main :: Effect Unit
 main =
   runTest do
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Recursion" do
       test "Exercise - isEven" do
         assert "0 is even"
@@ -76,6 +73,25 @@ main =
           $ isPrime 4
         assert "997 is prime"
           $ isPrime 997
+      suite "Exercise - triples" do
+        -- Sorting to allow for any ordering
+        test "single element array result" do
+          Assert.equal (sort [ [ 3, 4, 5 ] ])
+            $ sort
+            $ triples 5
+        test "multiple element array result" do
+          Assert.equal (sort [ [ 3, 4, 5 ], [ 5, 12, 13 ], [ 6, 8, 10 ] ])
+            $ sort
+            $ triples 13
+      suite "Exercise - factorize" do
+        test "Test small non-prime number" do
+          Assert.equal [ 3, 2 ]
+            $ factorize 6
+        test "Test number that uses the prime numbers less than 10" do
+          Assert.equal [ 7, 5, 3, 2 ]
+            $ factorize 210
+
+{-  Move this block comment starting point to enable more tests
       suite "Exercise - cartesianProduct" do
         let
           -- Don't worry if this this testing helper function signature looks confusing.
@@ -97,23 +113,6 @@ main =
           [ [ "5", "five" ], [ "5", "six" ], [ "6", "five" ], [ "6", "six" ] ]
           [ "5", "6" ]
           [ "five", "six" ]
-      suite "Exercise - triples" do
-        -- Sorting to allow for any ordering
-        test "single element array result" do
-          Assert.equal (sort [ [ 3, 4, 5 ] ])
-            $ sort
-            $ triples 5
-        test "multiple element array result" do
-          Assert.equal (sort [ [ 3, 4, 5 ], [ 5, 12, 13 ], [ 6, 8, 10 ] ])
-            $ sort
-            $ triples 13
-      suite "Exercise - factorize" do
-        test "Test small non-prime number" do
-          Assert.equal [ 3, 2 ]
-            $ factorize 6
-        test "Test number that uses the prime numbers less than 10" do
-          Assert.equal [ 7, 5, 3, 2 ]
-            $ factorize 210
     suite "Exercise Group - Folds and Tail Recursion" do
       test "Exercise - allTrue" do
         assert "all elements true"
