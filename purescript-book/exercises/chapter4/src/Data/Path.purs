@@ -2,14 +2,16 @@ module Data.Path
   ( Path()
   , root
   , ls
+  , basename
   , filename
   , isDirectory
   , size
   ) where
 
 import Prelude
-
+import Data.Array (last)
 import Data.Maybe (Maybe(..))
+import Data.String (Pattern(..), split)
 
 data Path
   = Directory String (Array Path)
@@ -44,18 +46,27 @@ root =
         ]
     ]
 
+basename :: Path -> Maybe String
+basename (Directory _ _) = Nothing
+
+basename (File name _) = last $ split (Pattern "/") name
+
 filename :: Path -> String
 filename (File name _) = name
+
 filename (Directory name _) = name
 
 isDirectory :: Path -> Boolean
 isDirectory (Directory _ _) = true
+
 isDirectory _ = false
 
 ls :: Path -> Array Path
 ls (Directory _ xs) = xs
+
 ls _ = []
 
 size :: Path -> Maybe Int
 size (File _ bytes) = Just bytes
+
 size _ = Nothing

@@ -1,8 +1,24 @@
 module Test.Main where
 
 import Prelude (Unit, discard, negate, ($), (<$>), (==))
+import Data.Functor (map)
+import Data.Maybe (Maybe(..))
 import Test.Examples (allFiles, allFiles', fact, factTailRec, factors, factorsV2, factorsV3, fib, length, lengthTailRec)
-import Test.MySolutions (countEven, isEven, isPrime, keepNonNegative, keepNonNegativeRewrite, squared, (<$?>), triples, factorize, allTrue, reverse)
+import Test.MySolutions
+  ( countEven
+  , isEven
+  , isPrime
+  , keepNonNegative
+  , keepNonNegativeRewrite
+  , squared
+  , (<$?>)
+  , triples
+  , factorize
+  , allTrue
+  , reverse
+  , onlyFiles
+  , whereIs
+  )
 import Data.Array (sort)
 import Data.Path (filename, root)
 import Effect (Effect)
@@ -106,6 +122,28 @@ main =
         test "More than 1 element" do
           Assert.equal [ 3, 2, 1 ]
             $ reverse [ 1, 2, 3 ]
+    suite "Exercise Group - Filesystem" do
+      test "Exercise - onlyFiles" do
+        Assert.equal
+          [ "/bin/cp"
+          , "/bin/ls"
+          , "/bin/mv"
+          , "/etc/hosts"
+          , "/home/user/todo.txt"
+          , "/home/user/code/js/test.js"
+          , "/home/user/code/haskell/test.hs"
+          ]
+          $ map filename
+          $ onlyFiles root
+      suite "Exercise - whereIs" do
+        test "locates a file"
+          $ Assert.equal (Just ("/bin/"))
+          $ map filename
+          $ whereIs root "ls"
+        test "doesn't locate a file"
+          $ Assert.equal (Nothing)
+          $ map filename
+          $ whereIs root "cat"
 
 {-  Move this block comment starting point to enable more tests
       suite "Exercise - cartesianProduct" do
@@ -139,32 +177,11 @@ main =
         test "Verify 44" do
           Assert.equal 1134903170
             $ fibTailRec 44
-    suite "Exercise Group - Filesystem" do
-      test "Exercise - onlyFiles" do
-        Assert.equal
-          [ "/bin/cp"
-          , "/bin/ls"
-          , "/bin/mv"
-          , "/etc/hosts"
-          , "/home/user/todo.txt"
-          , "/home/user/code/js/test.js"
-          , "/home/user/code/haskell/test.hs"
-          ]
-          $ map filename
-          $ onlyFiles root
       test "Exercise - largestSmallest for root" do
         Assert.equal [ "/home/user/code/js/test.js", "/etc/hosts" ]
           $ map fst
           $ largestSmallest root
-      suite "Exercise - whereIs" do
-        test "locates a file"
-          $ Assert.equal (Just ("/bin/"))
-          $ map filename
-          $ whereIs root "ls"
-        test "doesn't locate a file"
-          $ Assert.equal (Nothing)
-          $ map filename
-          $ whereIs root "cat"
+
 
 -}
 runChapterExamples :: TestSuite

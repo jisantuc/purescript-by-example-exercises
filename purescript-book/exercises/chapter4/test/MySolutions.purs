@@ -1,12 +1,15 @@
 module Test.MySolutions where
 
-import Prelude
+import Control.Alternative ((<|>))
 import Control.MonadZero (guard)
-import Data.Array (concat, filter, head, length, nub, null, range, sort, tail)
+import Data.Array (concat, concatMap, elem, filter, head, length, nub, null, range, sort, tail)
 import Data.Foldable (foldl)
 import Data.Int (fromNumber, toNumber)
-import Data.Maybe (fromMaybe)
+import Data.Maybe (Maybe(..), fromMaybe, isJust)
+import Data.Path (Path, basename, filename, isDirectory, ls)
+import Data.String
 import Math (floor, sqrt)
+import Prelude (bind, discard, mod, pure, ($), (&&), (*), (+), (-), (/), (<), (<$>), (<<<), (<>), (==), (>), (>=), (||))
 import Test.Examples (factors)
 
 -- Note to reader: Add your solutions to this file
@@ -64,3 +67,29 @@ allTrue = foldl (\x y -> x && y) true
 
 reverse :: forall a. Array a -> Array a
 reverse arr = if (null arr) then arr else foldl (\xs x -> [ x ] <> xs) [] arr
+
+onlyFiles :: Path -> Array Path
+onlyFiles p =
+  if (isDirectory p) then
+    concatMap onlyFiles $ ls p
+  else
+    [ p ]
+      <> ( do
+            child <- ls p
+            if (isDirectory child) then onlyFiles child else [ child ]
+        )
+
+whereIs :: Path -> String -> Maybe Path
+whereIs from fName =
+  let
+    directChild =
+      head
+        $ do
+            child <- ls from
+            guard (isDirectory child && (Just fName `elem` (basename <$> ls child)))
+            pure child
+
+    recursiveChildren :: Array (Maybe Path)
+    recursiveChildren = (\p -> whereIs p fName) <$> (filter isDirectory $ ls from)
+  in
+    directChild <|> foldl (\acc x -> if (isJust acc) then acc else x) Nothing recursiveChildren
