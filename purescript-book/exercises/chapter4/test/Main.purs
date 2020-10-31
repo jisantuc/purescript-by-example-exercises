@@ -2,7 +2,7 @@ module Test.Main where
 
 import Prelude (Unit, discard, negate, ($), (<$>), (==))
 import Test.Examples (allFiles, allFiles', fact, factTailRec, factors, factorsV2, factorsV3, fib, length, lengthTailRec)
-import Test.MySolutions (countEven, isEven, isPrime, keepNonNegative, keepNonNegativeRewrite, squared, (<$?>), triples, factorize)
+import Test.MySolutions (countEven, isEven, isPrime, keepNonNegative, keepNonNegativeRewrite, squared, (<$?>), triples, factorize, allTrue, reverse)
 import Data.Array (sort)
 import Data.Path (filename, root)
 import Effect (Effect)
@@ -90,6 +90,22 @@ main =
         test "Test number that uses the prime numbers less than 10" do
           Assert.equal [ 7, 5, 3, 2 ]
             $ factorize 210
+    suite "Exercise Group - Folds and Tail Recursion" do
+      test "Exercise - allTrue" do
+        assert "all elements true"
+          $ allTrue [ true, true, true ]
+        assertFalse "some elements false"
+          $ allTrue [ true, false, true ]
+      suite "Exercise - reverse" do
+        test "Empty Array" do
+          Assert.equal ([] :: Array Int)
+            $ reverse []
+        test "Singleton Array" do
+          Assert.equal [ 1 ]
+            $ reverse [ 1 ]
+        test "More than 1 element" do
+          Assert.equal [ 3, 2, 1 ]
+            $ reverse [ 1, 2, 3 ]
 
 {-  Move this block comment starting point to enable more tests
       suite "Exercise - cartesianProduct" do
@@ -113,12 +129,6 @@ main =
           [ [ "5", "five" ], [ "5", "six" ], [ "6", "five" ], [ "6", "six" ] ]
           [ "5", "6" ]
           [ "five", "six" ]
-    suite "Exercise Group - Folds and Tail Recursion" do
-      test "Exercise - allTrue" do
-        assert "all elements true"
-          $ allTrue [ true, true, true ]
-        assertFalse "some elements false"
-          $ allTrue [ true, false, true ]
       suite "Exercise - fibTailRec" do
         test "Verify 0" do
           Assert.equal 1
@@ -129,16 +139,6 @@ main =
         test "Verify 44" do
           Assert.equal 1134903170
             $ fibTailRec 44
-      suite "Exercise - reverse" do
-        test "Empty Array" do
-          Assert.equal ([] :: Array Int)
-            $ reverse []
-        test "Singleton Array" do
-          Assert.equal [ 1 ]
-            $ reverse [ 1 ]
-        test "More than 1 element" do
-          Assert.equal [ 3, 2, 1 ]
-            $ reverse [ 1, 2, 3 ]
     suite "Exercise Group - Filesystem" do
       test "Exercise - onlyFiles" do
         Assert.equal

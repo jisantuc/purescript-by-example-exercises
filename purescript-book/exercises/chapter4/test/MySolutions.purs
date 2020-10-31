@@ -2,7 +2,8 @@ module Test.MySolutions where
 
 import Prelude
 import Control.MonadZero (guard)
-import Data.Array (concat, filter, head, length, nub, null, range, reverse, sort, tail)
+import Data.Array (concat, filter, head, length, nub, null, range, sort, tail)
+import Data.Foldable (foldl)
 import Data.Int (fromNumber, toNumber)
 import Data.Maybe (fromMaybe)
 import Math (floor, sqrt)
@@ -57,3 +58,9 @@ factorize n =
             i <- range 2 (fromMaybe 2 $ fromNumber (floor <<< sqrt <<< toNumber $ n))
             guard $ (n `mod` i == 0 && isPrime i)
             concat [ [ i ], if (isPrime $ n / i) then [ n / i ] else [], (factorize $ n / i) ]
+
+allTrue :: Array Boolean -> Boolean
+allTrue = foldl (\x y -> x && y) true
+
+reverse :: forall a. Array a -> Array a
+reverse arr = if (null arr) then arr else foldl (\xs x -> [ x ] <> xs) [] arr
