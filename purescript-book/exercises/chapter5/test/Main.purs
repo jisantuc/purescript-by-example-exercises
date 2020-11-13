@@ -114,18 +114,26 @@ main =
         Assert.equal Nothing
           $ shapeText
           $ Line origin (Point { x: 1.0, y: 1.0 })
-
-{-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Vector Graphics" do
       test "Exercise - area" do
         Assert.equal 50
-          $ round $ area $ Circle origin 4.0
+          $ round
+          $ area
+          $ Circle origin 4.0
         Assert.equal 40
-          $ round $ area $ Rectangle origin 4.0 10.0
+          $ round
+          $ area
+          $ Rectangle origin 4.0 10.0
         Assert.equal 0
-          $ round $ area $ Line origin (Point { x: 2.0, y: 2.0 })
+          $ round
+          $ area
+          $ Line origin (Point { x: 2.0, y: 2.0 })
         Assert.equal 0
-          $ round $ area $ Text origin "Text has no area!"
+          $ round
+          $ area
+          $ Text origin "Text has no area!"
+
+{-  Move this block comment starting point to enable more tests
       test "Exercise - Clipped shapeBounds" do
         Assert.equal (Bounds { top: -2.0, left: -2.0, right: 2.0, bottom: 2.0 })
           $ shapeBounds (Clipped samplePicture (Point { x: 0.0, y: 0.0 }) 4.0 4.0)

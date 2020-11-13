@@ -5,6 +5,7 @@ import Data.Maybe (Maybe(..))
 import Data.Ord (abs)
 import Data.Person (Address)
 import Data.Picture (Point(..), Shape(..))
+import Math (pi)
 import Test.NoPeeking.Solutions (doubleScaleAndCenter)
 
 factorial :: Int -> Int
@@ -71,3 +72,10 @@ shapeText :: Shape -> Maybe String
 shapeText (Text _ msg) = Just msg
 
 shapeText _ = Nothing
+
+area :: Shape -> Number
+area (Circle _ r) = pi * r * r
+
+area (Rectangle _ w h) = w * h
+
+area _ = 0.0
