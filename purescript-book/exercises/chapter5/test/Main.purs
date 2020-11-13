@@ -75,36 +75,47 @@ main =
           $ fromSingleton "default" [ "B" ]
         Assert.equal "default"
           $ fromSingleton "default" [ "B", "C", "D" ]
-
-{-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Algebraic Data Types" do
       test "Exercise - circleAtOrigin" do
         Assert.equal origin
           $ getCenter circleAtOrigin
       test "Exercise - doubleScaleAndCenter" do
         Assert.equal (Circle origin 10.0)
-          $ doubleScaleAndCenter $ Circle origin 5.0
+          $ doubleScaleAndCenter
+          $ Circle origin 5.0
         Assert.equal (Circle origin 10.0)
-          $ doubleScaleAndCenter $ Circle (Point { x: 2.0, y: 2.0 }) 5.0
+          $ doubleScaleAndCenter
+          $ Circle (Point { x: 2.0, y: 2.0 }) 5.0
         Assert.equal (Rectangle origin 10.0 10.0)
-          $ doubleScaleAndCenter $ Rectangle (Point { x: 0.0, y: 0.0 }) 5.0 5.0
+          $ doubleScaleAndCenter
+          $ Rectangle (Point { x: 0.0, y: 0.0 }) 5.0 5.0
         Assert.equal (Rectangle origin 40.0 40.0)
-          $ doubleScaleAndCenter $ Rectangle (Point { x: 30.0, y: 30.0 }) 20.0 20.0
+          $ doubleScaleAndCenter
+          $ Rectangle (Point { x: 30.0, y: 30.0 }) 20.0 20.0
         Assert.equal (Line (Point { x: -4.0, y: -4.0 }) (Point { x: 4.0, y: 4.0 }))
-          $ doubleScaleAndCenter $ Line (Point { x: -2.0, y: -2.0 }) (Point { x: 2.0, y: 2.0 })
+          $ doubleScaleAndCenter
+          $ Line (Point { x: -2.0, y: -2.0 }) (Point { x: 2.0, y: 2.0 })
         Assert.equal (Line (Point { x: -4.0, y: -4.0 }) (Point { x: 4.0, y: 4.0 }))
-          $ doubleScaleAndCenter $ Line (Point { x: 0.0, y: 4.0 }) (Point { x: 4.0, y: 8.0 })
-        Assert.equal (Text (Point { x: 0.0, y: 0.0 }) "Hello .purs!" )
-          $ doubleScaleAndCenter $ Text (Point { x: 4.0, y: 6.0 }) "Hello .purs!"
+          $ doubleScaleAndCenter
+          $ Line (Point { x: 0.0, y: 4.0 }) (Point { x: 4.0, y: 8.0 })
+        Assert.equal (Text (Point { x: 0.0, y: 0.0 }) "Hello .purs!")
+          $ doubleScaleAndCenter
+          $ Text (Point { x: 4.0, y: 6.0 }) "Hello .purs!"
       test "Exercise - shapeText" do
         Assert.equal (Just "Hello .purs!")
-          $ shapeText $ Text origin "Hello .purs!"
+          $ shapeText
+          $ Text origin "Hello .purs!"
         Assert.equal Nothing
-          $ shapeText $ Circle origin 1.0
+          $ shapeText
+          $ Circle origin 1.0
         Assert.equal Nothing
-          $ shapeText $ Rectangle origin 1.0 1.0
+          $ shapeText
+          $ Rectangle origin 1.0 1.0
         Assert.equal Nothing
-          $ shapeText $ Line origin (Point { x: 1.0, y: 1.0 })
+          $ shapeText
+          $ Line origin (Point { x: 1.0, y: 1.0 })
+
+{-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Vector Graphics" do
       test "Exercise - area" do
         Assert.equal 50
