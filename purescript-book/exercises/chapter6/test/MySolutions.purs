@@ -1,8 +1,10 @@
 module Test.MySolutions where
 
 import Prelude
-import Data.Array (dropEnd, foldMap, foldl, foldr, last, reverse, singleton)
-import Data.Foldable (class Foldable)
+import Data.Array (foldMap, foldl, foldr, singleton)
+import Data.Array.Partial as Partial
+import Data.Foldable (class Foldable, maximum)
+import Data.Maybe (Maybe(..))
 
 -- Note to reader: Add your solutions to this file
 newtype Complex
@@ -68,3 +70,57 @@ instance foldableOneMore :: Foldable f => Foldable (OneMore f) where
     where
     t = foldr f default others
   foldMap f (OneMore one others) = (f one) <> foldMap f others
+
+unsafeMaximum :: Partial => Array Int -> Int
+unsafeMaximum xs = case maximum xs of
+  Just n -> n
+  _ -> Partial.head xs
+
+newtype Multiply
+  = Multiply Int
+
+instance semigroupMultiply :: Semigroup Multiply where
+  append (Multiply n) (Multiply m) = Multiply (n * m)
+
+instance monoidMultiply :: Monoid Multiply where
+  mempty = Multiply 1
+
+derive newtype instance eqMultiply :: Eq Multiply
+
+derive newtype instance showMultiply :: Show Multiply
+
+class
+  Monoid m <= Action m a where
+  act :: m -> a -> a
+
+instance actionMultiplyInt :: Action Multiply Int where
+  act (Multiply n) m = n * m
+
+instance actionMultiplyString :: Action Multiply String where
+  act (Multiply n) s = go n s
+    where
+    go 0 _ = ""
+
+    go 1 s' = s'
+
+    go n' s' = go (n' - 1) (s' <> s)
+
+instance actionApply :: Action Multiply (Array Int) where
+  act (Multiply n) arr = (_ * n) <$> arr
+
+newtype Self m
+  = Self m
+
+derive newtype instance eqSelf :: Eq m => Eq (Self m)
+
+derive newtype instance showSelf :: Show m => Show (Self m)
+
+derive newtype instance semigroupSelf :: Semigroup m => Semigroup (Self m)
+
+derive newtype instance monoidSelf :: Monoid m => Monoid (Self m)
+
+instance actMultiplySelf :: Action Multiply (Self Multiply) where
+  act n (Self m) = Self $ n <> m
+
+instance actMultiply :: Action (Self Multiply) Int where
+  act (Self (Multiply m)) n = n * m
