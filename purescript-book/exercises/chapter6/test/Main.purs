@@ -9,12 +9,12 @@ import Partial.Unsafe (unsafePartial)
 import Test.Unit (TestSuite, suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
+import Test.MySolutions
 
 main :: Effect Unit
 main =
   runTest do
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     test "Exercise Group - Show Me" do
       -- Tests for the first exercise in this chapter (Show Shape)
       -- can be found at the end of the previous chapter (chapter 5).
@@ -105,6 +105,8 @@ main =
           Assert.equal "123"
             $ foldMap (\x -> show x)
             $ OneMore 1 (2 : 3 : Nil)
+
+{-  Move this block comment starting point to enable more tests
     suite "Exercise Group - More or less than one Type argument" do
       test "Exercise - unsafeMaximum" do
         Assert.equal 42
