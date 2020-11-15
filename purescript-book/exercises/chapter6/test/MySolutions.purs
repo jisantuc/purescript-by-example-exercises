@@ -1,9 +1,10 @@
 module Test.MySolutions where
 
 import Prelude
-import Data.Array (foldMap, foldl, foldr, singleton)
+import Data.Array (foldMap, foldl, foldr, nub, nubByEq, singleton)
 import Data.Array.Partial as Partial
 import Data.Foldable (class Foldable, maximum)
+import Data.Hashable (hash, hashEqual, class Hashable)
 import Data.Maybe (Maybe(..))
 
 -- Note to reader: Add your solutions to this file
@@ -124,3 +125,15 @@ instance actMultiplySelf :: Action Multiply (Self Multiply) where
 
 instance actMultiply :: Action (Self Multiply) Int where
   act (Self (Multiply m)) n = n * m
+
+arrayHasDuplicates :: forall a. Hashable a => Ord a => Array a -> Boolean
+arrayHasDuplicates arr = nubByEq hashEqual arr /= arr && (nub arr /= arr)
+
+newtype Hour
+  = Hour Int
+
+instance eqHour :: Eq Hour where
+  eq (Hour n) (Hour m) = mod n 12 == mod m 12
+
+instance hourHashable :: Hashable Hour where
+  hash (Hour n) = hash (mod n 12)

@@ -184,8 +184,6 @@ main =
         test "Multiply Self append concrete" do
           Assert.equal 72
             $ act (act (m1 <> m2) a) 2
-
-{-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Hashes" do
       suite "Exercise - arrayHasDuplicates" do
         test "No dupe" do
@@ -207,7 +205,7 @@ main =
             $ Assert.equal (hash $ Hour 1)
             $ hash
             $ Hour 14
--}
+
 runChapterExamples :: TestSuite
 runChapterExamples =
   test "Todo for book maintainers - Add tests for chapter examples" do
