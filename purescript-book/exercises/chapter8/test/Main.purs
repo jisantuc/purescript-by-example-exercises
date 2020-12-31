@@ -1,9 +1,7 @@
 module Test.Main where
 
-import Prelude
-import Test.MySolutions
-import Data.AddressBook (examplePerson, PhoneType(..))
-import Data.Array (filter, null)
+import Prelude (Unit, discard, mod, negate, ($), (<), (==), (>=))
+import Test.MySolutions (filterM, possibleSums, third)
 import Data.List (List(..), foldM, (:))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
@@ -16,7 +14,6 @@ main :: Effect Unit
 main =
   runTest do
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     suite "Exercises Group - Monads and Applicatives" do
       suite "third" do
         test "No elements"
@@ -73,6 +70,8 @@ main =
             $ filterM
                 onlyPositiveEvenIntegers
                 (2 : 3 : 4 : Nil)
+
+{-  Move this block comment starting point to enable more tests
 
 -}
 runChapterExamples :: TestSuite

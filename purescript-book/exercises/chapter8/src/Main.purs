@@ -1,9 +1,9 @@
 module Main where
 
 import Prelude
-import Data.AddressBook (PhoneNumber, examplePerson)
+import Data.AddressBook (PhoneNumber, PhoneType(..), examplePerson)
 import Data.AddressBook.Validation (Errors, validatePerson')
-import Data.Array (mapWithIndex, updateAt)
+import Data.Array (mapWithIndex, updateAt, (:))
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Tuple (Tuple(..))
@@ -29,12 +29,10 @@ renderValidationErrors [] = []
 renderValidationErrors xs =
   let
     renderError :: String -> R.JSX
-    renderError err = D.li_ [ D.text err ]
+    renderError err = D.li { className: "alert alert-danger row", children: [ D.text err ] }
   in
-    [ D.div
-        { className: "alert alert-danger row"
-        , children: [ D.ul_ (map renderError xs) ]
-        }
+    [ D.div_
+        [ D.ul_ (map renderError xs) ]
     ]
 
 -- Helper function to render a single form field with an
@@ -97,7 +95,7 @@ mkAddressBookApp =
 
       -- helper-function to render all phone numbers
       renderPhoneNumbers :: Array R.JSX
-      renderPhoneNumbers = mapWithIndex renderPhoneNumber person.phones
+      renderPhoneNumbers = mapWithIndex renderPhoneNumber ({ number: "555-555-5557", type: WorkPhone } : person.phones)
     pure
       $ D.div
           { className: "container"
