@@ -1,7 +1,7 @@
 module Test.Main where
 
-import Prelude
-import Test.MySolutions
+import Prelude (Unit, discard, map, pure, show, ($), (<>))
+import Test.MySolutions (Tree(..), addApply, addMaybe, combineMaybe, divApply, divMaybe, mulApply, mulMaybe, nonEmptyRegex, sequenceUsingTraverse, stateRegex, subApply, subMaybe, traversePostOrder, traversePreOrder, traverseUsingSequence, validateAddressImproved, validatePersonOptionalAddress)
 import Control.Monad.Writer (runWriter, tell)
 import Data.AddressBook (PhoneType(..), address, phoneNumber)
 import Data.Array ((..))
