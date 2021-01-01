@@ -14,6 +14,9 @@ let overrides =
           , "lists"
           , "js-timers"
           , "avar"
+          , "node-fs-aff"
+          , "affjax"
+          , "parallel"
           ]
         , repo = "https://github.com/milesfrain/purescript-test-unit.git"
         , version = "stackless-default"

@@ -13,6 +13,9 @@ You can edit this file as you like.
     , "random"
     , "refs"
     , "web-dom"
+    , "node-fs-aff"
+    , "affjax"
+    , "parallel"
     ]
 , packages =
     ./packages.dhall
