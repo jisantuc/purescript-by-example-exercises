@@ -1,9 +1,10 @@
 module Main where
 
 import Prelude
+
 import Data.AddressBook (PhoneNumber, Person, examplePerson)
 import Data.AddressBook.Validation (Errors, validatePerson')
-import Data.Argonaut (Json, decodeJson, encodeJson, jsonParser, stringify)
+import Data.Argonaut (Json, JsonDecodeError(..), decodeJson, encodeJson, jsonParser, stringify)
 import Data.Array (length, mapWithIndex, updateAt)
 import Data.Bifunctor (lmap)
 import Data.Either (Either(..))
@@ -154,11 +155,11 @@ mkAddressBookApp =
                 <> [ saveButton ]
           }
 
-processItem :: Json -> Either String Person
+processItem :: Json -> Either JsonDecodeError Person
 processItem item = do
-  jsonString <- lmap ("No string in local storage: " <> _) $ decodeJson item
-  j <- lmap ("Cannot parse JSON string: " <> _) $ jsonParser jsonString
-  (p :: Person) <- lmap ("Cannot decode Person: " <> _) $ decodeJson j
+  jsonString <- decodeJson item
+  j <- lmap TypeMismatch $ jsonParser jsonString
+  (p :: Person) <- decodeJson j
   pure p
 
 main :: Effect Unit
@@ -179,7 +180,7 @@ main = do
       item <- getItem "person"
       initialPerson <- case processItem item of
         Left err -> do
-          alert $ "Error: " <> err <> ". Loading examplePerson"
+          alert $ "Error: " <> show err <> ". Loading examplePerson"
           pure examplePerson
         Right p -> pure p
       let

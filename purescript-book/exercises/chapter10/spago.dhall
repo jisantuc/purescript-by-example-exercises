@@ -6,12 +6,15 @@ You can edit this file as you like.
 , dependencies =
   [ "aff-promise"
   , "argonaut"
+  , "argonaut-codecs"
+  , "argonaut-core"
   , "argonaut-generic"
   , "console"
   , "effect"
   , "pairs"
   , "psci-support"
   , "react-basic-hooks"
+  , "react-basic-dom"
   , "test-unit"
   , "validation"
   ]

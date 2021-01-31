@@ -1,9 +1,7 @@
 module Test.Main where
 
-import Prelude (Unit, bind, discard, negate, otherwise, unit, ($), (<), (>))
-import Test.Examples (Complex, Quadratic, addComplex, addComplexDecodedBroken, addComplexDecodedWorking, bold, cumulativeSums, cumulativeSumsDecodedBroken, cumulativeSumsDecodedWorking, curriedAdd, diagonal, diagonalArrow, diagonalAsync, diagonalLog, diagonalNested, isEmpty, mapSetFoo, maybeHead, showEquality, sleep, square, uncurriedAdd, unsafeHead, yell)
-
 import Control.Monad.Free (Free)
+import Data.Argonaut (JsonDecodeError(..))
 import Data.Either (Either(..))
 import Data.Function.Uncurried (runFn2, runFn3)
 import Data.Map as Map
@@ -13,6 +11,8 @@ import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Class (liftEffect)
 import Effect.Uncurried (runEffectFn2)
+import Prelude (Unit, bind, discard, negate, otherwise, unit, ($), (<), (>))
+import Test.Examples (Complex, Quadratic, addComplex, addComplexDecodedBroken, addComplexDecodedWorking, bold, cumulativeSums, cumulativeSumsDecodedBroken, cumulativeSumsDecodedWorking, curriedAdd, diagonal, diagonalArrow, diagonalAsync, diagonalLog, diagonalNested, isEmpty, mapSetFoo, maybeHead, showEquality, sleep, square, uncurriedAdd, unsafeHead, yell)
 import Test.MySolutions (cumulativeSumsComplex, quadraticRoots, volumeArrow, volumeFn)
 import Test.URI (encodeURIComponent)
 import Test.Unit (TestF, suite, test)
@@ -281,14 +281,14 @@ runChapterExamples =
       Assert.equal 5.0 result
     suite "cumulativeSums Json" do
       test "broken" do
-        Assert.equal (Left "Couldn't decode Array (Failed at index 3): Value is not a Number")
+        Assert.equal (Left MissingValue)
           $ cumulativeSumsDecodedBroken [ 1, 2, 3 ]
       test "working" do
         Assert.equal (Right [ 1, 3, 6 ])
           $ cumulativeSumsDecodedWorking [ 1, 2, 3 ]
     suite "addComplex Json" do
       test "broken" do
-        Assert.equal (Left "JSON was missing expected field: imag")
+        Assert.equal (Left MissingValue)
           $ addComplexDecodedBroken { real: 1.0, imag: 2.0 } { real: 3.0, imag: 4.0 }
       test "working" do
         Assert.equal (Right { imag: 6.0, real: 4.0 })
