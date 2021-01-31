@@ -1,20 +1,19 @@
 module Test.Main where
 
-import Prelude
-import Test.Examples
-import Test.Solutions
+import Prelude (Unit, bind, discard, negate, otherwise, unit, ($), (<), (>))
+import Test.Examples (Complex, Quadratic, addComplex, addComplexDecodedBroken, addComplexDecodedWorking, bold, cumulativeSums, cumulativeSumsDecodedBroken, cumulativeSumsDecodedWorking, curriedAdd, diagonal, diagonalArrow, diagonalAsync, diagonalLog, diagonalNested, isEmpty, mapSetFoo, maybeHead, showEquality, sleep, square, uncurriedAdd, unsafeHead, yell)
+
 import Control.Monad.Free (Free)
-import Data.Argonaut (decodeJson, encodeJson)
-import Data.Either (Either(..), isLeft)
+import Data.Either (Either(..))
 import Data.Function.Uncurried (runFn2, runFn3)
 import Data.Map as Map
 import Data.Maybe (Maybe(..))
 import Data.Pair (Pair(..))
-import Data.Set as Set
 import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Class (liftEffect)
 import Effect.Uncurried (runEffectFn2)
+import Test.MySolutions (cumulativeSumsComplex, quadraticRoots, volumeArrow, volumeFn)
 import Test.URI (encodeURIComponent)
 import Test.Unit (TestF, suite, test)
 import Test.Unit.Assert as Assert
@@ -77,6 +76,7 @@ main =
           { a: 3.0, b: -6.0, c: 3.0 }
           { real: 1.0, imag: 0.0 }
           { real: 1.0, imag: 0.0 }
+{-  Move this block comment starting point to enable more tests
     suite "Exercise Group - JSON" do
       suite "Exercise - valuesOfMap" do
         test "Items" do
@@ -198,8 +198,6 @@ main =
           let
             (decoded :: Either _ IntOrString) = decodeJson $ encodeJson 1.5
           Assert.assert "Got a Right, should be Left" $ isLeft decoded
-
-{-  Move this block comment starting point to enable more tests
 -}
 -- Put in ascending order by real, then imag components
 orderCpx :: Pair Complex -> Pair Complex
